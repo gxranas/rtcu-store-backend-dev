@@ -5,12 +5,17 @@ import mongoose from 'mongoose'
 import { UsersRouter } from './src/routes/UsersRoute.js';
 dotenv.config();
 
-mongoose.connect(process.env.CONNECTION)
+
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: process.env.HOST,
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+}));
 app.use("/auth", UsersRouter)
 
+mongoose.connect(process.env.CONNECTION)
 
 app.listen(process.env.PORT, () =>{
     console.log("Server is running on port:" + process.env.PORT);
